@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.udacity.gradle.builditbigger.java.NoJokes;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -40,7 +42,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void tellJoke(View view){
-        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
+        NoJokes noJokes = new NoJokes();
+        String javaJoke = noJokes.tellAJoke();
+        Toast.makeText(this, javaJoke, Toast.LENGTH_SHORT).show();
     }
 
 
