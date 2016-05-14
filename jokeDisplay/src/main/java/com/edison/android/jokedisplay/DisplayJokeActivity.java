@@ -1,30 +1,24 @@
-package com.udacity.gradle.builditbigger;
+package com.edison.android.jokedisplay;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import com.edison.android.jokedisplay.DisplayJokeActivity;
-import com.udacity.gradle.builditbigger.java.NoJokes;
+public class DisplayJokeActivity extends AppCompatActivity {
 
-
-public class MainActivity extends AppCompatActivity {
+    public static String JOKE_KEY = "JOKE_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_display_joke);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_joke, menu);
         return true;
     }
 
@@ -42,15 +36,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void tellJoke(View view){
-        NoJokes noJokes = new NoJokes();
-        String javaJoke = noJokes.tellAJoke();
-        Intent displayJokeIntent = new Intent(this, DisplayJokeActivity.class);
-        displayJokeIntent.putExtra(DisplayJokeActivity.JOKE_KEY, javaJoke);
-        startService(displayJokeIntent);
-        Toast.makeText(this, javaJoke, Toast.LENGTH_SHORT).show();
-    }
-
-
 }

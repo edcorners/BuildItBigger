@@ -1,4 +1,4 @@
-package com.edison.android.androidnojokes;
+package com.edison.android.jokedisplay;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
