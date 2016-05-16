@@ -9,6 +9,7 @@ package com.edison.builditbigger.backend;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.udacity.gradle.builditbigger.java.NoJokes;
 
 import javax.inject.Named;
 
@@ -24,12 +25,11 @@ import javax.inject.Named;
 )
 public class MyEndpoint {
 
-    /** A simple endpoint method that takes a name and says Hi back */
-    @ApiMethod(name = "sayHi")
-    public MyBean sayHi(@Named("name") String name) {
+    @ApiMethod(name = "tellAJoke")
+    public MyBean tellAJoke() {
+        NoJokes noJokes = new NoJokes();
         MyBean response = new MyBean();
-        response.setData("Hi, " + name);
-
+        response.setData(noJokes.tellAJoke());
         return response;
     }
 
