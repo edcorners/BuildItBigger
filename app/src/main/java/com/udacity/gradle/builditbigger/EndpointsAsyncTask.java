@@ -3,9 +3,7 @@ package com.udacity.gradle.builditbigger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.util.Pair;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.edison.android.jokedisplay.DisplayJokeActivity;
 import com.edison.builditbigger.backend.myApi.MyApi;
@@ -19,13 +17,19 @@ import java.io.IOException;
  * Code found at
  * https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints
  */
-class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
+class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
     private String LOG_TAG = EndpointsAsyncTask.class.getSimpleName();
     private static MyApi myApiService = null;
-    private Context context;
+    private Context mContext;
+    private EndpointsAsyncTask.Listener listener;
+
+    public EndpointsAsyncTask(Context context, EndpointsAsyncTask.Listener listener){
+        this.mContext = context;
+        this.listener = listener;
+    }
 
     @Override
-    protected String doInBackground(Context... params) {
+    protected String doInBackground(Void... params) {
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     .setRootUrl("https://builditbigger-1312.appspot.com/_ah/api/");
@@ -33,7 +37,7 @@ class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
 
             myApiService = builder.build();
         }
-        context = params[0];
+        //mContext = params[0];
         try {
             return myApiService.tellAJoke().execute().getData();
         } catch (IOException e) {
@@ -43,9 +47,15 @@ class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
+        listener.onTaskComplete(result);
         Log.i(LOG_TAG, "result: "+result);
-        Intent displayJokeIntent = new Intent(context, DisplayJokeActivity.class);
-        displayJokeIntent.putExtra(DisplayJokeActivity.JOKE_KEY, result);
-        context.startActivity(displayJokeIntent);
+
+    }
+
+    /**
+     *  Callback for the post execute of this async task
+     */
+    interface Listener{
+        void onTaskComplete(String joke);
     }
 }
