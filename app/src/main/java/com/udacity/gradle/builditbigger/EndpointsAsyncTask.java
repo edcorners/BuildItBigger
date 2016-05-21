@@ -17,7 +17,7 @@ import java.io.IOException;
  * Code found at
  * https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints
  */
-class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
     private String LOG_TAG = EndpointsAsyncTask.class.getSimpleName();
     private static MyApi myApiService = null;
     private Context mContext;
@@ -55,7 +55,7 @@ class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
     /**
      *  Callback for the post execute of this async task
      */
-    interface Listener{
+    public interface Listener{
         void onTaskComplete(String joke);
     }
 }
