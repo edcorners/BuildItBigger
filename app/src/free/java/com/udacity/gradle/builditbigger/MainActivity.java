@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.edison.android.jokedisplay.DisplayJokeActivity;
 import com.google.android.gms.ads.AdListener;
@@ -16,11 +17,15 @@ import com.google.android.gms.ads.InterstitialAd;
 public class MainActivity extends AppCompatActivity implements EndpointsAsyncTask.Listener{
 
     InterstitialAd mInterstitialAd;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        spinner=(ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
     }
 
     private void startEndpoint() {
+        spinner.setVisibility(View.VISIBLE);
         new EndpointsAsyncTask(this, this).execute();
     }
 
@@ -82,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
     public void onTaskComplete(String joke) {
         Intent displayJokeIntent = new Intent(this, DisplayJokeActivity.class);
         displayJokeIntent.putExtra(DisplayJokeActivity.JOKE_KEY, joke);
+        spinner.setVisibility(View.GONE);
         startActivity(displayJokeIntent);
     }
 }
