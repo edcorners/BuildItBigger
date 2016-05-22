@@ -17,3 +17,15 @@ allprojects {
         jcenter()
     }
 }
+
+// Lots of help from the discussion forums on this one...
+task runConnectedTests(dependsOn: [":backend:appengineRun", ":app:connectedAndroidTest", ":backend:appengineStop"]){
+    evaluationDependsOn ":backend"
+    project(":backend"){
+        appengine{
+            daemon true
+        }
+    }
+    getTasks().getByPath(":app:connectedAndroidTest").mustRunAfter(":backend:appengineRun")
+    getTasks().getByPath(":backend:appengineStop").mustRunAfter(":app:connectedAndroidTest")
+}
